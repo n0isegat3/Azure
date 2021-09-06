@@ -1,0 +1,4 @@
+//All heartbeating computers
+Heartbeat
+| distinct Computer
+| extend HostCustomEntity = Computer

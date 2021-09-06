@@ -1,0 +1,53 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspaceName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "resourceDeploymentName": {
+            "type": "string"
+        },
+        "eventLogName":{
+            "type": "string",
+            "defaultValue": "Application"
+        },
+        "eventTypesArray": {
+            "type": "array",
+            "defaultValue": [
+                {
+                    "eventType": "Warning"
+                },
+                {
+                    "eventType": "Error"
+                }
+            ]
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+			"apiVersion": "2020-10-01",
+			"type": "Microsoft.OperationalInsights/workspaces",
+			"name": "[parameters('workspaceName')]",
+			"location": "[resourceGroup().location]",
+            "properties": {},
+            "resources": [
+				{        
+                    "apiVersion": "2015-11-01-preview",
+                    "type": "datasources",
+                    "name": "[concat(parameters('resourceDeploymentName'),substring(uniqueString(resourceGroup().id),0,6))]",
+                    "dependsOn": [
+                        "[concat('Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]"
+                    ],
+                    "kind": "WindowsEvent",
+                    "properties": {
+                        "eventLogName": "[parameters('eventLogName')]",
+                        "eventTypes": "[parameters('eventTypesArray')]"
+                    }
+                }
+            ]
+        }
+    ]
+}

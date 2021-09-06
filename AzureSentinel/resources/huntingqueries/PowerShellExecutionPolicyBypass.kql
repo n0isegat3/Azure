@@ -1,0 +1,4 @@
+//Detects PowerShell execution policy bypass
+SecurityEvent
+| where EventID == \"4687\"
+| where CommandLine contains \"-noni -ep bypass $\"

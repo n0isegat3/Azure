@@ -1,0 +1,136 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "adminUsername": {
+            "value": "labadmin"
+        },
+        "adminPassword": {
+            "value": "P@ssw0rdP@ssw0rd"
+        },
+        "domainUsers": {
+            "value": {
+                "array": [
+                    {
+                        "FirstName": "Cody",
+                        "LastName": "Maverick",
+                        "SamAccountName": "cody",
+                        "Department": "Beach Research",
+                        "JobTitle": "Surfcer",
+                        "Password": "B1gWav@s",
+                        "Identity": "Users",
+                        "UserContainer": "DomainUsers"
+                    },
+                    {
+                        "FirstName": "Lani",
+                        "LastName": "Aliikai",
+                        "SamAccountName": "lani",
+                        "Department": "Emergency",
+                        "JobTitle": "Lifeguard",
+                        "Password": "S4vELiv@s",
+                        "Identity": "Domain Admins",
+                        "UserContainer": "DomainUsers"
+                    },
+                    {
+                        "FirstName": "Sysmon",
+                        "LastName": "MS",
+                        "SamAccountName": "sysmonsvc",
+                        "Department": "IT Support",
+                        "JobTitle": "Service Account",
+                        "Password": "Buggy!1122",
+                        "Identity": "Users",
+                        "UserContainer": "DomainUsers"
+                    },
+                    {
+                        "FirstName": "Nxlog",
+                        "LastName": "Shipper",
+                        "SamAccountName": "nxlogsvc",
+                        "Department": "IT Support",
+                        "JobTitle": "Service Account",
+                        "Password": "S3nData!1122",
+                        "Identity": "Users",
+                        "UserContainer": "DomainUsers"
+                    }
+                ]
+            }
+        },
+        "remoteAccessMode": {
+            "value": "AllowPublicIP"
+        },
+        "allowedIPAddresses": {
+            "value": "77.240.100.239"
+        },
+        "azureBastionHostName": {
+            "value": "WinADBastionHost"
+        },
+        "azureBastionSubnetRange": {
+            "value": "192.168.3.0/27"
+        },
+        "domainFQDN": {
+            "value": "cyber-rangers.lab"
+        },
+        "numberOfClientVMs": {
+            "value": 1
+        },
+        "numberOfServerVMs": {
+            "value": 1
+        },
+        "domainControllerVMNamePrefix": {
+            "value": "labad"
+        },
+        "clientVMNamePrefix": {
+            "value": "labclient"
+        },
+        "serverVMNamePrefix": {
+            "value": "labserver"
+        },
+        "windowsDesktopSKU": {
+            "value": "19h2-pro"
+        },
+        "windowsDesktopVersion": {
+            "value": "latest"
+        },
+        "windowsServerSKU": {
+            "value": "2019-Datacenter"
+        },
+        "windowsServerVersion": {
+            "value": "latest"
+        },
+        "vmSize": {
+            "value": "Standard_B2s"
+        },
+        "workspaceId": {
+            "value": ""
+        },
+        "workspaceKey": {
+            "value": ""
+        },
+        "virtualNetworkName": {
+            "value": "vnet-sentinellab"
+        },
+        "virtualNetworkAddressRange": {
+            "value": "172.16.0.0/16"
+        },
+        "subnetRange": {
+            "value": "172.16.2.0/24"
+        },
+        "subnetName": {
+            "value": "snet-sentinellab"
+        },
+        "enableSysmon": {
+            "value": false
+        },
+        "enableMonitoringAgent": {
+            "value": false
+        },
+        "enableAADConnect": {
+            "value": false
+        },
+        "_artifactsLocation": {
+            "value": "https://raw.githubusercontent.com/n0isegat3/Azure/main/"
+        },
+        "location": {
+            "value": "westeurope"
+        }
+    }
+}

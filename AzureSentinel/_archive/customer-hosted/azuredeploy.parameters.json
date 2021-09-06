@@ -1,0 +1,86 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "mspOfferName": {
+            "value": "Virtual Security Opetions Center"
+        },
+        "mspOfferDescription": {
+            "value": "Virtual Security Opetions Center as a Service"
+        },
+        "managedByTenantId": {
+            "value": "8719b35b-9b18-4801-b981-6fc1fe85dc2b"
+        },
+        "authorizations": {
+            "value": [
+                {
+                    "principalId": "c641f1b5-6258-49d5-bcdc-fbb3137987d8",
+                    "roleDefinitionId": "39bc4728-0917-49c7-9d2c-d95423bc2eb4",
+                    "principalIdDisplayName": "SOCLighthouse"
+                }
+            ]
+        },
+        "rgName": {
+            "value": "sandboxmarekazsrg"
+        },
+        "location": {
+            "value": "westeurope"
+        },
+        "workspaceName": {
+            "value": "sandboxmarekazs"
+        },
+        "pricingTier": {
+            "value": "PerGB2018"
+        },
+        "dailyQuota": {
+            "value": 0
+        },
+        "dataRetention": {
+            "value": 30
+        },
+        "immediatePurgeDataOn30Days": {
+            "value": true
+        },
+        "securityCollectionTier": {
+            "value": "All"
+        },
+        "enableDataConnectors": {
+            "value": [
+                "AzureActivityLog",
+                "SecurityEvents",
+                "WindowsFirewall",
+                "DnsAnalytics"
+            ]
+        },
+        "deployLASolutions": {
+            "value": [
+                "ServiceMap",
+                "WireData2",
+                "InfrastructureInsights"
+            ]
+        },
+        "deployLASavedSearches": {
+            "value": [
+                "Sysmon"
+            ]
+        },
+        "enableFusionAlert": {
+            "value": true
+        },
+        "enableMicrosoftAlerts": {
+            "value": true
+        },
+        "enableMLAlerts": {
+            "value": true
+        },
+        "enableScheduledAlerts": {
+            "value": true
+        },
+        "mcasDiscoveryLogs": {
+            "value": false
+        },
+        "_artifactsLocation": {
+            "value": "https://raw.githubusercontent.com/n0isegat3/Azure/main/"
+        }
+    }
+}

@@ -1,0 +1,72 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "ASCNestedNameDeployment":{
+            "type": "string"
+        },
+        "NotificationEmail":{
+            "type": "string"
+        },
+        "NotificationPhoneNumber":{
+            "type": "string"
+        },
+		"SecurityPricingTier": {
+			"type": "string",
+			"defaultValue": "Free",
+			"allowedValues": [
+				"Standard",
+				"Free"
+			],
+			"metadata": {
+				"description": "Select Free or Standard pricing model for Azure Security Center"
+			}			
+		}
+    },
+    "variables": {},
+    "resources": [
+        {
+			"name": "[parameters('ASCNestedNameDeployment')]",
+			"type": "Microsoft.Security/policies",
+			"apiVersion": "2015-06-01-preview",
+			"properties":  {
+				"policyLevel":  "Subscription",
+				"name":  "default",
+				"unique":  "Off",
+				"logCollection":  "Off",
+				"recommendations":  {
+					"patch":  "On",
+					"baseline":  "On",
+					"antimalware":  "On",
+					"diskEncryption":  "On",
+					"acls":  "On",
+					"nsgs":  "On",
+					"waf":  "On",
+					"sqlAuditing":  "On",
+					"sqlTde":  "On",
+					"ngfw":  "On",
+					"vulnerabilityAssessment":  "On",
+					"storageEncryption":  "On",
+					"jitNetworkAccess":  "On"
+				},
+				"logsConfiguration":  {
+					"storages":  {
+					}
+				},
+				"omsWorkspaceConfiguration":  {
+					"workspaces":  {
+					}
+				},
+				"securityContactConfiguration":  {
+					"securityContactEmails":  "[parameters('NotificationEmail')]",
+					"securityContactPhone":  "[parameters('NotificationPhoneNumber')]",
+					"areNotificationsOn":  true,
+					"sendToAdminOn":  true
+				},
+				"pricingConfiguration":  {
+					"selectedPricingTier": "[parameters('SecurityPricingTier')]"
+				}
+			}
+		}
+	]
+}

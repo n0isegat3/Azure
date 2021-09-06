@@ -1,0 +1,4 @@
+
+*.DS_Store
+main_deploy.ps1
+AzureSentinel/api-requests.http

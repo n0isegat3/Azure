@@ -1,0 +1,65 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspaceName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name for the Log Analytics workspace used by Azure Sentinel"
+            }
+        },
+        "huntingQueryName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name for the Hunting Query without spaces"
+            }
+        },
+        "huntingQueryDisplayName": {
+            "type": "string",
+            "metadata": {
+                "description": "Display Name for the Hunting Query"
+            }
+        },
+        "huntingQuery": {
+            "type": "string",
+            "metadata": {
+                "description": "KQL hunting query code"
+            }
+        },
+        "huntingQueryTactics": {
+            "type": "string",
+            "metadata": {
+                "description": "Hunting Query tactics separated by comma - for example: Persistence,LateralMovement"
+            }
+        },
+        "huntingQueryDescription": {
+            "type": "string",
+            "metadata": {
+                "description": "Description for the Hunting Query"
+            }
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2020-08-01",
+            "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+            "name": "[concat(parameters('workspaceName'), '/', parameters('huntingQueryName'))]",
+            "properties": {
+                "category": "Hunting Queries",
+                "displayName": "[parameters('huntingQueryDisplayName')]",
+                "query": "[parameters('huntingQuery')]",
+                "version": 2,
+                "tags": [
+                    {
+                        "name": "tactics",
+                        "value": "[parameters('huntingQueryTactics')]"
+                    },
+                    {
+                        "name": "description",
+                        "value": "[parameters('huntingQueryDescription')]"
+                    }
+                ]
+            }
+        }
+    ]
+}

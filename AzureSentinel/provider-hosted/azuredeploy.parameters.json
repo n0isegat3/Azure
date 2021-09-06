@@ -1,0 +1,76 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspaceName": {
+            "value": "sandboxmarekazs"
+        },
+        "pricingTier": {
+            "value": "PerGB2018"
+        },
+        "dailyQuota": {
+            "value": 0
+        },
+        "dataRetention": {
+            "value": 90
+        },
+        "immediatePurgeDataOn30Days": {
+            "value": true
+        },
+        "securityCollectionTier": {
+            "value": "All"
+        },
+        "enableDataConnectors": {
+            "value": [
+                "ThreatIntelligence",
+                "ThreatIntelligenceTaxiiAnomaliPhishTank",
+                "ThreatIntelligenceTaxiiAnomaliEmergingThreatsCompromised",
+                "ThreatIntelligenceTaxiiAnomaliCyberCrime",
+                "ThreatIntelligenceTaxiiAnomaliEmergingThreatsCCServer",
+                "ThreatIntelligenceTaxiiAnomaliAbuseChRansomwareIPs",
+                "ThreatIntelligenceTaxiiAnomaliAbuseChRansomwareDomains",
+                "AzureSecurityCenter",
+                "SecurityEvents",
+                "WindowsFirewall",
+                "DnsAnalytics"
+            ]
+        },
+        "deployLASolutions": {
+            "value": [
+                "Security",
+                "ServiceMap",
+                "WireData2",
+                "InfrastructureInsights"
+            ]
+        },
+        "deployLASavedSearches": {
+            "value": [
+                "Sysmon"
+            ]
+        },
+        "enableFusionAlert": {
+            "value": true
+        },
+        "enableMicrosoftAlerts": {
+            "value": true
+        },
+        "enableMLAlerts": {
+            "value": true
+        },
+        "enableScheduledAlerts": {
+            "value": true
+        },
+        "mcasDiscoveryLogs": {
+            "value": false
+        },
+        "_artifactsLocation": {
+            "value": "https://raw.githubusercontent.com/n0isegat3/Azure/main/"
+        },
+        "_artifactsLocationSasToken": {
+            "value": ""
+        },
+        "location": {
+            "value": "westeurope"
+        }
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "mspOfferName": {
+            "value": "Virtual Security Operations Center"
+        },
+        "mspOfferDescription": {
+            "value": "Virtual Security Operations Center"
+        },
+        "managedByTenantId": {
+            "value": "aaabbccc-9b18-4801-b981-6fc1fe85dc2b"
+        },
+        "authorizations": {
+            "value": [
+             {
+              "principalId": "c641f1b5-6258-49d5-bcdc-fbb3137987d8",
+              "roleDefinitionId": "b24988ac-6180-42a0-ab88-20f7382dd24c",
+              "principalIdDisplayName": "SOCLighthouse"
+             }
+            ]
+        },
+        "rgName": {
+            "value": "rg_mssp09062021001"
+        }
+    }
+}

@@ -1,0 +1,4 @@
+HuntingQueryName|HuntingQueryDisplayName|HuntingQueryTactics|HuntingQueryDescription
+"ADAccountLockouts"|"AD Account Lockout"|"Impact"|Detects Active Directory account lockouts
+"HeartbeatingComputers"|"Heartbeating Computers"|"PreAttack,InitialAccess,Execution,Persistence,PrivilegeEscalation,DefenseEvasion,CredentialAccess,Discovery,LateralMovement,Collection,Exfiltration,CommandAndControl,Impact"|Finds heartbeating computers
+"PowerShellExecutionPolicyBypass"|"PowerShell Execution Policy Bypass"|"Execution,Impact"|Detects PowerShell execution policy bypass
