@@ -1,8 +1,8 @@
 #variables
-[string]$Prefix = 'mssp09062021002'
+[string]$Prefix = 'kusto'
 [string]$Region = 'westeurope'
-[string]$ProviderTenantID = 'aaabbccc-9b18-4801-b981-6fc1fe85dc2b'
-[string]$SubscriptionId = 'aaabbccc-103a-487c-93ff-680e10fa7f88'
+[string]$ProviderTenantID = '2b1c7905-1691-49c2-b3bd-ad99fb6881c5'
+[string]$SubscriptionId = 'a0ea77b1-2cd9-4549-ab55-c003fb12b853'
 [string]$WorkbooksFolder = './AzureSentinel/resources/workbooks'
 [string]$WatchlistsFolder = './AzureSentinel/resources/watchlists'
 [string]$PlaybooksFolder = './AzureSentinel/resources/playbooks'
@@ -12,9 +12,9 @@
 
 #prep variables
 $Random = get-date -f 'yyyyMMddhhmm'
-$ResourceGroupName = ('{0}-AzS-{1}' -f $Prefix, $Random)
-$DeploymentName = ('{0}-AzS-{1}' -f $Prefix, $Random)
-$WorkspaceName = ('{0}-AzS-{1}' -f $Prefix, $Random)
+$ResourceGroupName = ('{0}-SENT-{1}' -f $Prefix, $Random)
+$DeploymentName = ('{0}-SENT-{1}' -f $Prefix, $Random)
+$WorkspaceName = ('{0}-SENT-{1}' -f $Prefix, $Random)
 
 
 $CustomerHosted = $true #$false for deployment to provider tenant / $true for deployment to customer's tenant
