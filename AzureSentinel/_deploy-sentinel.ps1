@@ -12,9 +12,9 @@
 
 #prep variables
 $Random = get-date -f 'yyyyMMddhhmm'
-$ResourceGroupName = ('{0}-SENT-{1}' -f $Prefix, $Random)
-$DeploymentName = ('{0}-SENT-{1}' -f $Prefix, $Random)
-$WorkspaceName = ('{0}-SENT-{1}' -f $Prefix, $Random)
+$ResourceGroupName = ('{0}-training-{1}' -f $Prefix, $Random)
+$DeploymentName = ('{0}-training-{1}' -f $Prefix, $Random)
+$WorkspaceName = ('{0}-training-{1}' -f $Prefix, $Random)
 
 
 $CustomerHosted = $true #$false for deployment to provider tenant / $true for deployment to customer's tenant
