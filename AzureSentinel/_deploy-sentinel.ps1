@@ -65,6 +65,8 @@ $SentinelDeploymentResultJSON = az deployment group create `
     --parameters ./AzureSentinel/provider-hosted/azuredeploy.parameters.json `
     --parameters ('workspaceName={0}' -f $WorkspaceName)
 
+Connect-AzAccount
+Get-AzResourceProvider -ProviderNamespace Microsoft.OperationalInsights
 
 $SentinelDeploymentResult = $SentinelDeploymentResultJSON | ConvertFrom-Json
 New-Object -TypeName psobject -Property @{
