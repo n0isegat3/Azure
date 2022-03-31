@@ -148,6 +148,30 @@ foreach ($HuntingQueryDefinition in (Import-Csv -Path $HuntingQueryCSVDefinition
 }
 #endregion deploy Azure Sentinel hunting rules via ARM
 
+#region sample data
+Install-Script Upload-AzMonitorLog
+new-item -itemtype directory -path C:\ -name Temp -errorAction SilentlyContinue
+cd C:\Temp
+git clone https://github.com/Azure/Azure-Sentinel.git
+cd 'Azure-Sentinel\Sample Data'
+gci -recurse -include *.csv,*.json | select-object -Property basename,fullname | foreach-object {
+    if ($_.fullname -like "*.csv") {
+        Write-Host ('Uploading file {0}' -f $_.fullname)
+        Import-CSV $_.fullname | Upload-AzMonitorLog.ps1 `
+        -WorkspaceId $SentinelDeploymentResult.WorkspaceId `
+        -WorkspaceKey $SentinelDeploymentResult.WorkspaceKey `
+            -LogTypeName $_.basename.replace(' ','').replace('-','_').replace('.','_')
+    }
+    if ($_.fullname -like "*.json") {
+        Write-Host ('Uploading file {0}' -f $_.fullname)
+        Get-Content $_.fullname | ConvertFrom-JSON | Upload-AzMonitorLog.ps1 `
+        -WorkspaceId $SentinelDeploymentResult.WorkspaceId `
+        -WorkspaceKey $SentinelDeploymentResult.WorkspaceKey `
+            -LogTypeName $_.basename.replace(' ','').replace('-','_').replace('.','_')
+    }
+}
+
+#endregion sample data
 #delete resource group
 <#
 az group delete --name $ResourceGroupName
