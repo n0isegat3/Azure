@@ -37,8 +37,11 @@ az account list --output table
 #set active subscription
 az account set --subscription $SubscriptionId
 
-#create empty managed disk
+#prep resource groups
 az group create --name $sourceRG --location $targetLocation
+az group create --name $targetRG --location $targetLocation
+
+#create empty managed disk
 az disk create -n $sourceDiskName -g $sourceRG -l $targetLocation --os-type $targetOS --for-upload --upload-size-bytes (get-item $localSourceVHDPath).Length --sku standard_lrs --hyper-v-generation v2
 
 $templateDiskSASURI = $(az disk grant-access -n $sourceDiskName -g $sourceRG --access-level Write --duration-in-seconds 86400 -o tsv)
@@ -47,22 +50,18 @@ $templateDiskSASURI = $templateDiskSASURI.Split("`t")[0]
 #upload
 C:\Tools\azcopy.exe copy $localSourceVHDPath $templateDiskSASURI --blob-type PageBlob
 
-az disk revoke-access -n $name -g $sourceRG
+az disk revoke-access -n $sourceDiskName -g $sourceRG
 
 #copy the disk
-az group create --name $targetRG --location $targetLocation
-
 [int64]$sourceDiskSizeBytes = $(az disk show -g $sourceRG -n $sourceDiskName --query '[diskSizeBytes]' -o tsv)
 
 az disk create -g $targetRG -n $targetDiskName -l $targetLocation --os-type $targetOS --for-upload --upload-size-bytes $(($sourceDiskSizeBytes+512)) --sku standard_lrs --hyper-v-generation v2
 
-$targetSASURI = $(az disk grant-access -n $targetDiskName -g $targetRG  --access-level Write --duration-in-seconds 86400 -o tsv)
+$targetSASURI = $(az disk grant-access -n $targetDiskName -g $targetRG  --access-level Write --duration-in-seconds 86400 -o tsv).split("`t")[0]
 
-$sourceSASURI = $(az disk grant-access -n $sourceDiskName -g $sourceRG --duration-in-seconds 86400 --query [accessSas] -o tsv)
+$sourceSASURI = $(az disk grant-access -n $sourceDiskName -g $sourceRG --duration-in-seconds 86400 --query [accessSas] -o tsv).split("`t")[0]
 
 C:\Tools\azcopy.exe copy $sourceSASURI $targetSASURI --blob-type PageBlob
-
-C:\Tools\azcopy.exe copy $sourceSASURI "https://md-impexp-x4230cnts5d5.z18.blob.storage.azure.net/b0smvzfs1xtq/abcd?sv=2018-03-28&sr=b&si=ada082cd-1650-4c2b-8e9f-b68952ca3281&sig=JaqwWUQOFBg%2FJmpqRj14CCeWLg2TVVanBXBUIxDDnig%3D" --blob-type PageBlob
 
 az disk revoke-access -n $sourceDiskName -g $sourceRG
 
