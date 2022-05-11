@@ -1,5 +1,5 @@
 #variables
-[string]$Prefix = 'test'
+[string]$Prefix = 'testdep2'
 [string]$Region = 'westeurope'
 [string]$ProviderTenantID = 'd24cf189-e29d-4347-aab5-470fde4f4e59'
 [string]$SubscriptionId = 'd5eccfc3-103a-487c-93ff-680e10fa7f88'

@@ -102,10 +102,10 @@
             },
             "defaultValue": true
         },
-        "enableScheduledAlerts": {
+        "enableAnalyticsRules": {
             "type": "bool",
             "metadata": {
-                "description": "Enable Scheduled analytics rules"
+                "description": "Enable analytics rules"
             },
             "defaultValue": true
         },
@@ -308,8 +308,8 @@
             }
         },
         {
-            "condition": "[parameters('enableScheduledAlerts')]",
-            "name": "enableScheduledAlerts",
+            "condition": "[parameters('enableAnalyticsRules')]",
+            "name": "enableAnalyticsRules",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-05-01",
             "dependsOn": [
@@ -318,7 +318,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[uri(parameters('_artifactsLocation'), concat('AzureSentinel/linkedtemplates/scheduledAlerts.json', parameters('_artifactsLocationSasToken')))]",
+                    "uri": "[uri(parameters('_artifactsLocation'), concat('AzureSentinel/linkedtemplates/analyticsRules.json', parameters('_artifactsLocationSasToken')))]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
