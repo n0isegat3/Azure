@@ -4,15 +4,15 @@
 [string]$SubscriptionId = 'd5eccfc3-103a-487c-93ff-680e10fa7f88'
 
 #optionally limit analytics rules to deploy based on connected data connectors, or use all. supported values are:
-## 'all' #deploy all available Analytics rules. You must use all if you want to deploy Fusion analytics rules.
-## 'connected' #deploy Analytics rules only for connected Data Connectors
+#'all' #deploy all available Analytics rules. You must use all if you want to deploy Fusion analytics rules.
+#'connected' #deploy Analytics rules only for connected Data Connectors
 [string]$deployChoice = 'connected'
 
 #limit analytics rules types if needed. supported values are listed in the next comment. these are not covering all available analytics rules types in Sentinel but only
 #those which are supported for automated deployment via API as documented in API documentation
-## "Fusion","Scheduled","MicrosoftSecurityIncidentCreation","NRT","MLBehaviorAnalytics","ThreatIntelligence"
-## following types are currently not supported by API in specific regions and deployment can produce errors: "Anomaly"
-## IMPORTANT NOTE> "Fusion" can be deployed only with $deployChoice = 'all' as Fusion rule has no required Data Connectors in template!
+#"Fusion","Scheduled","MicrosoftSecurityIncidentCreation","NRT","MLBehaviorAnalytics","ThreatIntelligence"
+#following types are currently not supported by API in specific regions and deployment can produce errors: "Anomaly"
+#IMPORTANT NOTE> "Fusion" can be deployed only with $deployChoice = 'all' as Fusion rule has no required Data Connectors in template!
 [string[]]$analyticsRulesKindsToDeploy = "Scheduled","MicrosoftSecurityIncidentCreation","NRT","MLBehaviorAnalytics","ThreatIntelligence"
 
 #limit analytics rules to deploy if they are in Preview - contains string '(Preview)' in name:
@@ -26,7 +26,7 @@
 
 $context = Get-AzContext
 
-if(!$context){
+if (!$context) {
     Connect-AzAccount
     $context = Get-AzContext
 }
