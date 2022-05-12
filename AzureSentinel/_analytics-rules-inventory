@@ -1,0 +1,57 @@
+#provide:
+[string]$ResourceGroup = 'test-sentinel-inventory-001'
+[string]$Workspace = 'test-sentinel-inventory-001'
+[string]$SubscriptionId = 'd5eccfc3-103a-487c-93ff-680e10fa7f88'
+
+#API version (https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights):
+[string]$sentinelAPIVersion = '2022-05-01-preview'
+#[string]$sentinelAPIVersion = '2021-10-01-preview'
+#[string]$sentinelAPIVersion = '2019-01-01-preview'
+
+
+$context = Get-AzContext
+
+if(!$context){
+    Connect-AzAccount
+    $context = Get-AzContext
+}
+
+Set-AzContext -Subscription $SubscriptionId
+
+Write-Host "Connected to Azure with subscription: $($context.Subscription)" -ForegroundColor magenta
+
+$baseUri = "/subscriptions/${SubscriptionId}/resourceGroups/${ResourceGroup}/providers/Microsoft.OperationalInsights/workspaces/${Workspace}"
+$templatesUri = "$baseUri/providers/Microsoft.SecurityInsights/alertRuleTemplates?api-version=$sentinelAPIVersion"
+$alreadyDeployedAlertsUri = "$baseUri/providers/Microsoft.SecurityInsights/alertRules?api-version=$sentinelAPIVersion"
+
+
+Write-Host ('Loading all available Analytics Rules...') -ForegroundColor magenta
+try {
+    $alertRulesTemplates = ((Invoke-AzRestMethod -Path $templatesUri -Method GET).Content | ConvertFrom-Json).value
+}
+catch {
+    Write-Error "Unable to get Analytics rules with error code: $($_.Exception.Message)" -ErrorAction Stop
+}
+
+Write-Host ('Loading all already deployed Analytics Rules...') -ForegroundColor magenta
+try {
+    $alreadyDeployedAlertRules = ((Invoke-AzRestMethod -Path $alreadyDeployedAlertsUri -Method GET).Content | ConvertFrom-Json).value
+}
+catch {
+    Write-Error "Unable to get all already deployed Analytics rules with error code: $($_.Exception.Message)" -ErrorAction Stop
+}
+
+$alreadyDeployedAlertRulesInfo = New-Object -TypeName System.Collections.ArrayList
+foreach ($alreadyDeployedAlertRule in $alreadyDeployedAlertRules) {
+    $objProps = @{
+        displayName = $alreadyDeployedAlertRule.Properties.displayName
+        description = (($alreadyDeployedAlertRule.Properties.description.ToString() -split "(\r*\n){3,}") -replace '\r*\n', '|') -join ''
+        connectors = (($alertRulesTemplates.properties | Where-Object {$_.displayName -eq $alreadyDeployedAlertRule.Properties.displayName}).requiredDataConnectors.connectorId | Select-Object -Unique) -join '|'
+    }
+    $alreadyDeployedAlertRulesInfo.Add((New-Object -TypeName psobject -Property $objProps)) | Out-Null
+}
+
+Write-Host ('Exporting all already deployed Analytics Rules to ~/analyticsRules.csv...') -ForegroundColor magenta
+$alreadyDeployedAlertRulesInfo | Export-Csv -Path ~/analyticsRules.csv -Delimiter "`t" -NoTypeInformation
+
+Write-Host ('Done.') -ForegroundColor magenta

@@ -1,6 +1,6 @@
 #provide:
-[string]$ResourceGroup = 'test-training-202205110639'
-[string]$Workspace = 'test-training-202205110639'
+[string]$ResourceGroup = 'test-sentinel-inventory-001'
+[string]$Workspace = 'test-sentinel-inventory-001'
 [string]$SubscriptionId = 'd5eccfc3-103a-487c-93ff-680e10fa7f88'
 
 #optionally limit analytics rules to deploy based on connected data connectors, or use all. supported values are:
