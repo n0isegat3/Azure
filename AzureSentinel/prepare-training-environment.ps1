@@ -38,7 +38,7 @@ az ad user create --display-name ('test') --password $trainerPassword --user-pri
 
 #create virtual machine
 # Create a virtual network.
-1..15 | foreach-object {
+10..15 | foreach-object {
     $vmIdentifiedBy = 'student{0}' -f $_
     az network vnet create `
         --resource-group ('{0}{1}' -f $rgPrefix,$vmIdentifiedBy) `
@@ -101,7 +101,7 @@ az ad user create --display-name ('test') --password $trainerPassword --user-pri
     --image Win2019Datacenter `
     --admin-username ('student') `
     --admin-password $studentPassword `
-    --computer-name ('student{0}' -f $vmIdentifiedBy)
+    --computer-name $vmIdentifiedBy
 
     az vm open-port `
     --port 22 `
@@ -186,7 +186,7 @@ az ad user create --display-name ('test') --password $trainerPassword --user-pri
     --image Win2019Datacenter `
     --admin-username ('student') `
     --admin-password $studentPassword `
-    --computer-name ('student{0}' -f $vmIdentifiedBy)
+    --computer-name $vmIdentifiedBy
 
     az vm open-port `
     --port 22 `
