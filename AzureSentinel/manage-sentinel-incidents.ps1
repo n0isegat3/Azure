@@ -30,8 +30,8 @@ foreach ($sentinelIncident in $sentinelIncidents) {
 
 #close incident with False Positive classification
 $currentIncident = 1
-foreach ($sentinelIncident in $sentinelIncidents) {
-    Write-Host ('Processing incident {0} of {1}: Closing incident...' -f $currentIncident,$sentinelIncidents.Count)
-    $sentinelIncident | Update-AzSentinelIncident -Classification FalsePositive -Status "Closed" -ClassificationComment "Bug in analytics rule query logic." -verbose | Out-Null
+foreach ($sentinelIncident in ($sentinelIncidents | where {$_.status -ne 'closed'})) {
+    Write-Host ('Processing incident {0} of {1}: Closing incident...' -f $currentIncident,($sentinelIncidents | where {$_.status -ne 'closed'}).Count)
+    $sentinelIncident | Update-AzSentinelIncident -Classification FalsePositive -Status "Closed" -ClassificationComment "Bug in analytics rule query logic." -ClassificationReason IncorrectAlertLogic -verbose | Out-Null
     $currentIncident++
 }
