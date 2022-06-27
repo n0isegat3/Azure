@@ -35,10 +35,34 @@ az group create --name ('{0}test' -f $rgPrefix) --location $Region
 az ad user create --display-name ('trainer') --password $trainerPassword --user-principal-name ('trainer@{0}' -f $UPNDomain)
 az ad user create --display-name ('test') --password $trainerPassword --user-principal-name ('test@{0}' -f $UPNDomain)
 
+#list users
+#az ad user show --id "{principalName}" --query "id" --output tsv
+#list roles
+#az role definition list --query "[].{name:name, roleType:roleType, roleName:roleName}" --output tsv
+1..15 | foreach-object {
+    #add role assignments on subscription level
+    az role assignment create --assignee ('student{0}@{1}' -f $_,$UPNDomain) `
+    --role "Reader" `
+    --subscription $SubscriptionId
+    #add role assignments on resource group level
+    az role assignment create --assignee ('student{0}@{1}' -f $_,$UPNDomain) `
+    --role "Owner" `
+    --resource-group ('{0}student{1}' -f $rgPrefix,$_)
+}
+
+'trainer','test' | foreach-object {
+    #add role assignments on subscription level
+    az role assignment create --assignee ('{0}@{1}' -f $_,$UPNDomain) `
+    --role "Reader" `
+    --subscription $SubscriptionId
+    #add role assignments on resource group level
+    az role assignment create --assignee ('{0}@{1}' -f $_,$UPNDomain) `
+    --role "Owner" `
+    --resource-group ('{0}{1}' -f $rgPrefix,$_)
+}
 
 #create virtual machine
-# Create a virtual network.
-10..15 | foreach-object {
+1..15 | foreach-object {
     $vmIdentifiedBy = 'student{0}' -f $_
     az network vnet create `
         --resource-group ('{0}{1}' -f $rgPrefix,$vmIdentifiedBy) `
