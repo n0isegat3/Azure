@@ -4,8 +4,8 @@
 [string]$Region = 'westeurope'
 [string]$SubscriptionId = 'd5eccfc3-103a-487c-93ff-680e10fa7f88'
 [string]$UPNDomain = 'janmareklab.cz'
-[string]$studentPassword = 'HesloProZkolenyTohotoRokuDvacet2'
-[string]$trainerPassword = 'LektorskiHesloProZkolenyTohotoRokuDvacet2'
+[string]$studentPassword = 'P@ssw0rd'
+[string]$trainerPassword = 'P@ssw0rd'
 
 #login to azure
 az login --use-device-code
