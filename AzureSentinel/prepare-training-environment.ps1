@@ -19,6 +19,18 @@ az account list --output table
 #set active subscription
 az account set --subscription $SubscriptionId
 
+
+
+<# cleanup
+#delete resource group
+1..15 | foreach-object {
+    az group delete --name ('{0}student{1}' -f $rgPrefix,$_)
+}
+az group delete --name ('{0}trainer' -f $rgPrefix)
+az group delete --name ('{0}test' -f $rgPrefix)
+
+#>
+
 #create resource group
 1..15 | foreach-object {
     az group create --name ('{0}student{1}' -f $rgPrefix,$_) --location $Region
