@@ -1,12 +1,12 @@
 #provide:
-[string]$ResourceGroup = 'test-sentinel-inventory-001'
-[string]$Workspace = 'test-sentinel-inventory-001'
+[string]$ResourceGroup = 'rg_sentinel2go'
+[string]$Workspace = 'sentinel2goyc5372s7eaqge'
 [string]$SubscriptionId = 'd5eccfc3-103a-487c-93ff-680e10fa7f88'
 
 #optionally limit analytics rules to deploy based on connected data connectors, or use all. supported values are:
 #'all' #deploy all available Analytics rules. You must use all if you want to deploy Fusion analytics rules.
 #'connected' #deploy Analytics rules only for connected Data Connectors
-[string]$deployChoice = 'connected'
+[string]$deployChoice = 'all'
 
 #limit analytics rules types if needed. supported values are listed in the next comment. these are not covering all available analytics rules types in Sentinel but only
 #those which are supported for automated deployment via API as documented in API documentation
@@ -27,7 +27,7 @@
 $context = Get-AzContext
 
 if (!$context) {
-    Connect-AzAccount
+    Connect-AzAccount -device
     $context = Get-AzContext
 }
 
@@ -68,7 +68,9 @@ catch {
 $enabledAnalyticsRules = @() #only for logging
 
 if ($deployChoice -eq 'all') {
+    Write-Host 'Deploying all Analytics rules for Connected Data Connectors...' -ForegroundColor Yellow
     foreach ($item in $alertRulesTemplates) {
+        Write-Host ('Processing rule {0}...' -f $item.properties.displayName) -ForegroundColor Yellow
         if ($item.properties.displayName -in $alreadyDeployedAlertRules.properties.displayName) {
             Write-Host ('Analytics rule with name {0} already deployed. Will be skipped.' -f $item.properties.displayName) -ForegroundColor yellow
             continue
@@ -244,19 +246,23 @@ if ($deployChoice -eq 'all') {
 }
 
 if ($deployChoice -eq 'connected') {
+    Write-Host 'Deploying all Analytics rules for Connected Data Connectors...' -ForegroundColor Yellow
     foreach ($item in $alertRulesTemplates) {
+        Write-Host ('Processing rule {0}...' -f $item.properties.displayName) -ForegroundColor Yellow
         if ($item.properties.displayName -in $alreadyDeployedAlertRules.properties.displayName) {
-            Write-Host ('Analytics rule with name {0} already deployed. Will be skipped.' -f $item.properties.displayName) -ForegroundColor yellow
+            Write-Host ('Analytics rule with name {0} already deployed. Will be skipped.' -f $item.properties.displayName) -ForegroundColor DarkYellow
             continue
         }
 
         if ($deployAnalyticsRulesInPreview -eq $false -and $item.properties.displayName -like "*(Preview)*") {
+            Write-Host ('Analytics rule with name {0} is in Preview but deployment of Preview Analytics Rules is not enabled.' -f $item.properties.displayName) -ForegroundColor DarkYellow
             continue
         }
 
         if ($item.kind -eq 'Fusion' -and $item.kind -in $analyticsRulesKindsToDeploy) {
             throw 'You have to specify ALL for deployChoice if you want to deploy FUSION analytics rule!'
         } elseif ($item.kind -ne 'Fusion' -and $item.kind -in $analyticsRulesKindsToDeploy) {
+            Write-Host ('Deploying Analytics Rules of kind {0}' -f $item.kind) -ForegroundColor Blue
             foreach ($connector in $item.properties.requiredDataConnectors) {
                 if ($connector.connectorId -in $connectedDataConnectors.kind) {
                     $guid = New-Guid
@@ -380,7 +386,9 @@ if ($deployChoice -eq 'connected') {
                     break
                 }
             }
-        }   
+        } else {
+            Write-Host ('Analytics Rules is neither of kind Fusion nor selected for deployment.' -f $item.kind) -ForegroundColor Blue
+        }
     }
 }
 
